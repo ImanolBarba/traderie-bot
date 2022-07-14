@@ -35,7 +35,7 @@ DCLONE_STATUS = {
     5: "(5/6): Terror is about to be unleashed upon Sanctuary.",
     6: "(6/6): Terror has invaded Sanctuary",
 }
-DCLONE_DIABLO2_IO_UA = 'trades Telegram bot (ibarba)'
+DCLONE_DIABLO2_IO_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'
 
 
 class DcloneTracker():
