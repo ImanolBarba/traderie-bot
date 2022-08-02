@@ -213,6 +213,20 @@ def notificationPostActions(bot: telegram.Bot, notification: traderie.Notificati
         res = traderie.acceptChatRequest(notification.notificationID)
         if res is not None:
             logger.error(f"Unable to automatically accept conversation request: {res}")
+        username = re.search("^You have a chat request from (.*)$", notification.text).group(1)
+        userCache.put(username, str(notification.fromUserID))
+        lastMessages = doLastMessagesFrom(notification.fromUserID)
+        if lastMessages is None:
+            logger.error(f"Unable to get last messages from user {notification.fromUserID}")
+            return
+        if len(lastMessages) != 0:
+            lastMessagesText = '\n' + '\n'.join(list(map(lambda x: x.text, lastMessages)))
+            bot.send_message(
+                chat_id=TARGET_CHAT_ID,
+                text=f"Last messages from {username}:{lastMessagesText}",
+                reply_to_message_id=notificationMessage.message_id,
+            )
+            logger.info(f"Last messages from {username}:{lastMessagesText}")
 
 
 def doSendMessage(bot: telegram.Bot, username: str, message: str) -> None:
