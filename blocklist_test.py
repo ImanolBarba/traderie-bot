@@ -52,6 +52,10 @@ class TestBlocklist(unittest.TestCase):
                 e                r"""
             ),
             (
+                "verybaduser",
+                "verybaduser"
+            ),
+            (
                 "very🅱️aduser",
                 None
             ),
