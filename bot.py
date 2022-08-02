@@ -221,7 +221,7 @@ def notificationPostActions(bot: telegram.Bot, notification: traderie.Notificati
             logger.error(f"Unable to get last messages from user {notification.fromUserID}")
             return
         for msg in lastMessages:
-            reason = blocklist.assholeBlocklist(msg)
+            reason = blocklist.assholeBlocklist(msg.text)
             if reason is not None:
                 traderie.archiveChat(notification.notificationID)
                 traderie.blockUser(notification.fromUserID)
