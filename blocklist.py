@@ -30,5 +30,6 @@ blocklist = [
 
 def assholeBlocklist(msg: str) -> Optional[str]:
     for word in blocklist:
-        if re.search('\\s*'.join([c for c in word.lower()]), msg.lower()) is not None:
-            return re.search('\\s*'.join([c for c in word.lower()]), msg.lower()).group(0)
+        regex = '\\s*'.join([c for c in word.lower()])
+        if re.search(f".*?({regex}).*", msg.lower()) is not None:
+            return re.search(f".*?({regex}).*", msg.lower()).group(1)

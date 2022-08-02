@@ -28,16 +28,16 @@ class TestBlocklist(unittest.TestCase):
         blocklist.blocklist = ["teststring", "verybaduser"]
         cases = [
             (
-                """teststring""",
-                True
+                "teststring",
+                "teststring"
             ),
             (
-                """teststrin""",
-                False
+                "teststrin",
+                None
             ),
             (
-                """very bad user""",
-                True
+                "very bad user",
+                "very bad user",
             ),
             (
                 """
@@ -46,20 +46,24 @@ class TestBlocklist(unittest.TestCase):
                 d us
                 e                r
                 """,
-                True
+                """v e r     y b
+                a
+                d us
+                e                r"""
             ),
             (
-                """very🅱️aduser""",
-                False
+                "very🅱️aduser",
+                None
+            ),
+            (
+                "some random fucking text, and then v e r y  b a d  u s e r and some more trailing crap",
+                "v e r y  b a d  u s e r"
             ),
         ]
 
         for c in cases:
             res = blocklist.assholeBlocklist(c[0])
-            if not c[1]:
-                self.assertIsNone(res, f"returned {res}, expected None\ncase #{c[0]}")
-            else:
-                self.assertEqual(res, c[0].strip(), f"returned {res}, expected {c[0]}\ncase #{c[0]}")
+            self.assertEqual(res, c[1], f"returned {res}, expected {c[1]}\ncase #{c[0]}")
 
 
 if __name__ == '__main__':
