@@ -53,6 +53,7 @@ class TestIsRelistable(unittest.TestCase):
                     listingID=1,
                     updated="2022-02-21T23:11:02.503Z",
                     price=[["Asking Price"]],
+                    properties={},
                 ),
                 True
             ),
@@ -61,6 +62,7 @@ class TestIsRelistable(unittest.TestCase):
                     listingID=2,
                     updated="2022-03-26T21:30:00.000Z",
                     price=[["Asking Price"]],
+                    properties={},
                 ),
                 True
             ),
@@ -69,6 +71,7 @@ class TestIsRelistable(unittest.TestCase):
                     listingID=3,
                     updated="2022-03-26T21:30:00.999Z",
                     price=[["Asking Price"]],
+                    properties={},
                 ),
                 True
             ),
@@ -77,6 +80,7 @@ class TestIsRelistable(unittest.TestCase):
                     listingID=4,
                     updated="2022-03-26T21:30:01.000Z",
                     price=[["Asking Price"]],
+                    properties={},
                 ),
                 False
             ),
@@ -85,6 +89,7 @@ class TestIsRelistable(unittest.TestCase):
                     listingID=5,
                     updated="2022-03-26T21:30:01.001Z",
                     price=[["Asking Price"]],
+                    properties={},
                 ),
                 False
             ),
@@ -93,6 +98,7 @@ class TestIsRelistable(unittest.TestCase):
                     listingID=6,
                     updated="2022-03-26T21:31:00.000Z",
                     price=[["Asking Price"]],
+                    properties={},
                 ),
                 False
             ),
@@ -101,6 +107,7 @@ class TestIsRelistable(unittest.TestCase):
                     listingID=7,
                     updated="2022-03-27T21:30:01.001Z",
                     price=[["Asking Price"]],
+                    properties={},
                 ),
                 False
             ),
@@ -109,6 +116,7 @@ class TestIsRelistable(unittest.TestCase):
                     listingID=8,
                     updated="2022-03-28T21:30:01.001Z",
                     price=[["Asking Price"]],
+                    properties={},
                 ),
                 False
             ),
@@ -117,6 +125,7 @@ class TestIsRelistable(unittest.TestCase):
                     listingID=9,
                     updated="2023-03-28T21:30:01.001Z",
                     price=[["Asking Price"]],
+                    properties={},
                 ),
                 False
             ),
