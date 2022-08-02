@@ -683,3 +683,48 @@ def acceptChatRequest(conversationID: str) -> Optional[str]:
         logger.error(f"Failed to accept chat request: {data.get('error')}")
         return f"Failed to accept chat request: {data.get('error')}"
     return None
+
+
+def archiveChat(conversationID: str) -> Optional[str]:
+    params = {
+        'id': conversationID,
+        'active': False,
+    }
+    try:
+        response = requests.put("https://traderie.com/api/diablo2resurrected/conversations", data=json.dumps(params), headers=httpHeaders)
+    except (requests.exceptions.ConnectionError, urllib3.exceptions.NewConnectionError) as e:
+        logger.error(f"Failed to archive chat: {str(e)}")
+        logger.error(f"Stacktrace:\n{traceback.format_exc()}")
+        return f"Failed to archive chat: {str(e)}"
+    if response.status_code != 200:
+        logger.error(f"Failed to archive chat {response.status_code}: {response.reason}")
+        logger.debug(f"Raw response: {response.text}")
+        return f"Failed to archive chat: API returned error {response.status_code}"
+
+    data = json.loads(response.text)
+    if data.get("error") is not None:
+        logger.error(f"Failed to archive chat: {data.get('error')}")
+        return f"Failed to archive chat: {data.get('error')}"
+    return None
+
+
+def blockUser(userID: int) -> Optional[str]:
+    params = {
+        'user': str(userID),
+    }
+    try:
+        response = requests.post("https://traderie.com/api/diablo2resurrected/blocks", data=json.dumps(params), headers=httpHeaders)
+    except (requests.exceptions.ConnectionError, urllib3.exceptions.NewConnectionError) as e:
+        logger.error(f"Failed to block user: {str(e)}")
+        logger.error(f"Stacktrace:\n{traceback.format_exc()}")
+        return f"Failed to block user: {str(e)}"
+    if response.status_code != 200:
+        logger.error(f"Failed to block user {response.status_code}: {response.reason}")
+        logger.debug(f"Raw response: {response.text}")
+        return f"Failed to block user: API returned error {response.status_code}"
+
+    data = json.loads(response.text)
+    if data.get("error") is not None:
+        logger.error(f"Failed to block user: {data.get('error')}")
+        return f"Failed to block user: {data.get('error')}"
+    return None

@@ -27,6 +27,7 @@ from typing import Callable, Dict, List, Optional
 import telegram
 import telegram.ext
 
+import blocklist
 import dclone
 import log
 import lru
@@ -219,6 +220,17 @@ def notificationPostActions(bot: telegram.Bot, notification: traderie.Notificati
         if lastMessages is None:
             logger.error(f"Unable to get last messages from user {notification.fromUserID}")
             return
+        for msg in lastMessages:
+            reason = blocklist.assholeBlocklist(msg)
+            if reason is not None:
+                traderie.archiveChat(notification.notificationID)
+                traderie.blockUser(notification.fromUserID)
+                bot.send_message(
+                    chat_id=TARGET_CHAT_ID,
+                    text=f"Asshole detected: {username}. Reason: {reason}",
+                    reply_to_message_id=notificationMessage.message_id,
+                )
+                return
         if len(lastMessages) != 0:
             lastMessagesText = '\n' + '\n'.join(list(map(lambda x: x.text, lastMessages)))
             bot.send_message(
@@ -300,7 +312,7 @@ def doRelist(bot: telegram.Bot) -> None:
 
 def doLastMessagesFrom(fromUserID: int) -> Optional[List[traderie.Message]]:
     conversations = traderie.getConversations(True, TRADERIE_SELLER_ID)
-    
+
     if conversations.get(fromUserID) is None:
         logger.error(f"Unable to find an active conversation with user {fromUserID}")
         return None
